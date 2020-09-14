@@ -6,9 +6,9 @@
 # Since: December, 2016
 # Author: gerald.venzl@oracle.com
 # Description: Sets up the unix environment for DB installation.
-# 
+#
 # DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
-# 
+#
 
 # Setup filesystem and oracle user
 # Adjust file permissions, go to /opt/oracle as user 'oracle' to proceed with Oracle installation
@@ -19,8 +19,10 @@ ln -s $ORACLE_BASE/scripts /docker-entrypoint-initdb.d && \
 mkdir $ORACLE_BASE/oradata && \
 mkdir -p $ORACLE_HOME && \
 chmod ug+x $ORACLE_BASE/*.sh && \
-yum -y install oracle-database-preinstall-19c openssl && \
+yum install -y oracle-epel-release-el7 oracle-release-el7
+yum -y install oracle-database-preinstall-19c openssl locales python2 python-setuptools python-pip software-properties-common build-essential unzip curl vim-enhanced sudo && \
 rm -rf /var/cache/yum && \
 ln -s $ORACLE_BASE/$PWD_FILE /home/oracle/ && \
 echo oracle:oracle | chpasswd && \
+echo "oracle  ALL=(ALL)       NOPASSWD: ALL" >> /etc/sudoers && \
 chown -R oracle:dba $ORACLE_BASE
