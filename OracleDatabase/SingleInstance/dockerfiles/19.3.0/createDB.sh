@@ -25,6 +25,9 @@ export ORACLE_PDB=${2:-ORCLPDB1}
 export ORACLE_PWD=${3:-"`openssl rand -base64 8`1"}
 echo "ORACLE PASSWORD FOR SYS, SYSTEM AND PDBADMIN: $ORACLE_PWD";
 
+# Total memory in MB to allocate to Oracle
+export ORACLE_MEM=${ORACLE_MEM:-2048}
+
 # Replace place holders in response file
 cp $ORACLE_BASE/$CONFIG_RSP $ORACLE_BASE/dbca.rsp
 sed -i -e "s|###ORACLE_SID###|$ORACLE_SID|g" $ORACLE_BASE/dbca.rsp
@@ -38,7 +41,9 @@ sed -i -e "s|###ORACLE_CHARACTERSET###|$ORACLE_CHARACTERSET|g" $ORACLE_BASE/dbca
 # However, bigger environment can and should use more of the available memory
 # This is due to Github Issue #307
 if [ `nproc` -gt 8 ]; then
-   sed -i -e "s|totalMemory=2048||g" $ORACLE_BASE/dbca.rsp
+   sed -i -e "s|totalMemory=###ORACLE_MEM###||g" $ORACLE_BASE/dbca.rsp
+else
+   sed -i -e "s|###ORACLE_MEM###|$ORACLE_MEM|g" $ORACLE_BASE/dbca.rsp
 fi;
 
 # Create network related config files (sqlnet.ora, tnsnames.ora, listener.ora)
