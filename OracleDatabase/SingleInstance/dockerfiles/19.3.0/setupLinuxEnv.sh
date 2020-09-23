@@ -19,8 +19,9 @@ ln -s $ORACLE_BASE/scripts /docker-entrypoint-initdb.d && \
 mkdir $ORACLE_BASE/oradata && \
 mkdir -p $ORACLE_HOME && \
 chmod ug+x $ORACLE_BASE/*.sh && \
-yum install -y oracle-epel-release-el7 oracle-release-el7
+yum install -y oracle-epel-release-el7 oracle-release-el7 && \
 yum -y install oracle-database-preinstall-19c openssl locales python2 python-setuptools python-pip software-properties-common build-essential unzip curl vim-enhanced sudo && \
+yum clean all && \
 rm -rf /var/cache/yum && \
 ln -s $ORACLE_BASE/$PWD_FILE /home/oracle/ && \
 echo oracle:oracle | chpasswd && \

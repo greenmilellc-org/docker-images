@@ -53,7 +53,7 @@ cd $ORACLE_HOME       && \
 mv $INSTALL_DIR/$INSTALL_FILE_1 $ORACLE_HOME/ && \
 unzip $INSTALL_FILE_1 && \
 rm $INSTALL_FILE_1    && \
-$ORACLE_HOME/runInstaller -silent -force -waitforcompletion -responsefile $INSTALL_DIR/$INSTALL_RSP -ignorePrereqFailure && \
+$ORACLE_HOME/runInstaller -silent -force -waitforcompletion -responsefile $INSTALL_DIR/$INSTALL_RSP -ignorePrereqFailure oracle.install.option=INSTALL_DB_SWONLY && \
 cd $HOME
 
 if $SLIMMING; then
