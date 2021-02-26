@@ -58,9 +58,15 @@ RUN chmod ug+x $INSTALL_DIR/*.sh && \
     sync && \
     $INSTALL_DIR/$CHECK_SPACE_FILE && \
     cd $INSTALL_DIR && \
-    yum -y install openssl oracle-database-preinstall-18c && \
+    yum -y install oracle-epel-release-el7 oracle-release-el7 openssl oracle-database-preinstall-18c && \
+    yum -y install openssl locales python2 python-setuptools python-pip software-properties-common build-essential unzip curl vim-enhanced sudo openssh openssh-server && \
+    yum clean all && \
+    rm -rf /var/cache/yum && \
     yum -y localinstall $INSTALL_FILE_1 && \
     rm -rf /var/cache/yum && \
+    echo oracle:oracle | chpasswd && \
+    echo "oracle  ALL=(ALL)       NOPASSWD: ALL" >> /etc/sudoers && \
+    chown -R oracle:dba $ORACLE_BASE && \
     rm -rf /var/tmp/yum-* && \
     mkdir -p $ORACLE_BASE/scripts/setup && \
     mkdir $ORACLE_BASE/scripts/startup && \

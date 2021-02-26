@@ -13,7 +13,7 @@
 # 
 
 ORACLE_SID="`grep $ORACLE_HOME /etc/oratab | cut -d: -f1`"
-OPEN_MODE="READ WRITE"
+OPEN_MODE="OPEN"
 ORAENV_ASK=NO
 source oraenv
 
@@ -21,7 +21,7 @@ source oraenv
 status=`sqlplus -s / as sysdba << EOF
    set heading off;
    set pagesize 0;
-   SELECT DISTINCT open_mode FROM v\\$pdbs WHERE open_mode = '$OPEN_MODE';
+    SELECT DISTINCT STATUS FROM v\\$instance WHERE STATUS = '$OPEN_MODE';
    exit;
 EOF`
 
